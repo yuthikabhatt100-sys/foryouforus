@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #f4ebe6, #e8d8cf);
+  color: #2c2c2c;
+}
+
+.container {
+  width: 90%;
+  max-width: 720px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+video, img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+#message {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+#question {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #c7bfb7;
+  font-size: 14px;
+  resize: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #b76e79;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+button:hover {
+  background: #a55c66;
+}
+
+.final-love {
+  color: #a12727;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="screen">
+
+  <!-- VIDEO -->
+  <video controls>
+    <source src="opening.mp4" type="video/mp4">
+  </video>
+
+  <!-- AUDIO (plays after Continue) -->
+  <audio id="bgm">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- MESSAGE -->
+  <div id="message">
+    This is for you.<br><br>
+    Even though I am flawed.<br>
+    Even though I hurt you sometimes by miscommunicating.<br>
+    Even though I make you feel misunderstood, unseen, or sad at times.<br>
+    Even though we fight.<br><br>
+    I am aware of it.<br>
+    I am willing to change.<br>
+    I want to hold on to you and to us.<br><br>
+    I love you. Always.
+  </div>
+
+  <!-- CONTINUE -->
+  <button onclick="start()">Continue</button>
+
+</div>
+
+<script>
+const audio = document.getElementById("bgm");
+
+const questions = [
+  "What exactly happened between us that made things start feeling off or heavy?",
+  "Which moment stayed in your mind the longest?",
+  "What meaning did you give to my words that hurt you?",
+  "What do you think I expect from you right now?",
+  "Are these expectations real or assumed?",
+  "When things feel heavy, what scares you the most?",
+  "What pace feels safe for you right now?",
+  "What do you want this connection to feel like?",
+  "What might you be overthinking here?",
+  "What is one thing you wish I understood better?"
+];
+
+let i = 0;
+
+function start() {
+  audio.play(); // ✅ music starts AFTER clicking Continue
+
+  document.getElementById("screen").innerHTML = `
+    <h1 id="question"></h1>
+    <textarea placeholder="Write your answer here..."></textarea>
+    <button onclick="next()">Next</button>
+  `;
+  load();
+}
+
+function load() {
+  document.getElementById("question").innerText = questions[i];
+}
+
+function next() {
+  i++;
+  if (i < questions.length) {
+    load();
+    document.querySelector("textarea").value = "";
+  } else {
+    audio.pause();
+    document.getElementById("screen").innerHTML = `
+      <img src="us.jpeg">
+      <div class="final-love">I love you.</div>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>
