@@ -10,21 +10,23 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(180deg, #f4ebe6, #e8d8cf);
   color: #2c2c2c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+}
+
+/* ✅ allow scrolling */
+html, body {
+  height: auto;
 }
 
 .container {
   width: 90%;
   max-width: 720px;
+  margin: 30px auto;
   text-align: center;
 }
 
 video, img {
   width: 100%;
-  max-height: 380px;
+  max-height: 360px;
   object-fit: cover;
   border-radius: 14px;
   margin-bottom: 20px;
@@ -52,7 +54,7 @@ textarea {
 }
 
 button {
-  margin-top: 20px;
+  margin: 20px 0;
   width: 100%;
   padding: 12px;
   background: #b76e79;
@@ -83,15 +85,14 @@ button:hover {
   <!-- 🎥 OPENING VIDEO -->
   <video controls>
     <source src="opening.mp4" type="video/mp4">
-    Your browser does not support video.
   </video>
 
-  <!-- 🎵 SONG (WILL START ON CONTINUE) -->
+  <!-- 🎵 MUSIC -->
   <audio id="bgm">
     <source src="song.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- 💬 OPENING MESSAGE -->
+  <!-- 💬 MESSAGE -->
   <div id="message">
     This is for you.<br><br>
 
@@ -106,3 +107,64 @@ button:hover {
 
     I love you. Always.
   </div>
+
+  <!-- ▶️ CONTINUE (NOW VISIBLE) -->
+  <button onclick="start()">Continue</button>
+
+</div>
+
+<script>
+const audio = document.getElementById("bgm");
+
+const questions = [
+  "What exactly happened between us that made things start feeling off or heavy?",
+  "Which specific moment, message, or interaction stayed in my mind the longest?",
+  "What meaning did she assign to my words that ended up hurting me?",
+  "What do I think she expects from me right now?",
+  "Has she clearly communicated these expectations, or am I assuming them based on my fears?",
+  "When she sends reels or messages that feel like high expectations, what do I think they are asking of me?",
+  "Are these expectations about time, effort, emotions, reassurance, or the future — and are these expectations actually legitimate or not?",
+  "If I imagine that she has no expectations at all, how would I interpret the same actions differently?",
+  "When I feel pressure in this connection, what am I afraid might happen if I don’t live up to it?",
+  "When I become distant or quiet, what outcome am I hoping for?",
+  "What feels harder right now: explaining myself honestly or risking being misunderstood?",
+  "At this point in my life, what pace of relationship feels realistic and manageable for me?",
+  "What do I want this connection to look like in the near future?",
+  "What might I be overthinking, misreading, or amplifying in this situation?",
+  "If I could communicate one thing clearly without fear of conflict, what would it be?"
+];
+
+let i = 0;
+
+function start() {
+  audio.play(); // ✅ browser allows this (button click)
+
+  document.getElementById("screen").innerHTML = `
+    <h1 id="question"></h1>
+    <textarea placeholder="Write here..."></textarea>
+    <button onclick="next()">Next</button>
+  `;
+  load();
+}
+
+function load() {
+  document.getElementById("question").innerText = questions[i];
+}
+
+function next() {
+  i++;
+  if (i < questions.length) {
+    load();
+    document.querySelector("textarea").value = "";
+  } else {
+    audio.pause();
+    document.getElementById("screen").innerHTML = `
+      <img src="us.jpeg">
+      <div class="final-love">I love you.</div>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>
