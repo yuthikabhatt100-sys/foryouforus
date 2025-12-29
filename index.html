@@ -8,10 +8,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-
-  /* 🌸 SOFT NOSTALGIC BACKGROUND */
   background: linear-gradient(180deg, #f4ebe6, #e8d8cf);
-
   color: #2c2c2c;
   display: flex;
   justify-content: center;
@@ -83,10 +80,15 @@ button:hover {
 
 <div class="container" id="screen">
 
-  <!-- 🎥 OPENING VIDEO -->
-  <video controls>
+  <!-- 🎥 VIDEO -->
+  <video id="vid" controls>
     <source src="opening.mp4" type="video/mp4">
   </video>
+
+  <!-- 🎵 BACKGROUND SONG -->
+  <audio id="bgm">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- 💬 OPENING MESSAGE -->
   <div id="message">
@@ -109,6 +111,23 @@ button:hover {
 </div>
 
 <script>
+const video = document.getElementById("vid");
+const audio = document.getElementById("bgm");
+
+/* 🎥 VIDEO ↔ 🎵 SONG SYNC */
+video.addEventListener("play", () => {
+  audio.currentTime = video.currentTime;
+  audio.play();
+});
+
+video.addEventListener("pause", () => {
+  audio.pause();
+});
+
+video.addEventListener("seeking", () => {
+  audio.currentTime = video.currentTime;
+});
+
 const questions = [
 "What exactly happened between us that made things start feeling off or heavy?",
 "Which specific moment, message, or interaction stayed in my mind the longest?",
@@ -130,6 +149,7 @@ const questions = [
 let i = 0;
 
 function start() {
+  audio.pause();
   document.getElementById("screen").innerHTML = `
     <h1 id="question"></h1>
     <textarea placeholder="Write here..."></textarea>
@@ -158,3 +178,4 @@ function next() {
 
 </body>
 </html>
+
